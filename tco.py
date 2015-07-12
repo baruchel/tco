@@ -16,9 +16,11 @@ class _TailCallWrapper():
           *map( lambda c: lambda *args: lambda: c.func(*args), k) )
     def __call__(self, *args):
         f = lambda: self.func(*args)
-        while callable(f):
+        while True:
+          try:
             f = f()
-        return f
+          except:
+            return f
 
 class C():
     """
