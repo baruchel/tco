@@ -1,4 +1,4 @@
-from tco import C2 as C
+from tco import C as C
 import traceback
 import time
 
@@ -25,5 +25,5 @@ f = C(
          lambda n:
            self(n-1) if n>0 else d(42)
       )(disp)
-t = time.time(); f(5000); print(time.time()-t)
+t = time.time(); f(50000); print(time.time()-t)
     
