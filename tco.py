@@ -22,7 +22,7 @@ try:
             while True:
                 try:
                     f = apply(*f)
-                except:
+                except TypeError:
                     return f
     class C():
         """
@@ -55,7 +55,7 @@ except:
                 try:
                     g,h = f
                     f = g(*h)
-                except:
+                except TypeError:
                     return f
     class C():
         """
@@ -83,7 +83,7 @@ class _TailCallWrapper1():
         while True:
           try:
             f = f()
-          except:
+          except TypeError:
             return f
 
 class C1():
