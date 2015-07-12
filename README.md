@@ -14,7 +14,7 @@ The module contains various different implementations of a trampoline-based wrap
 
 The first wrapper is a little faster and should be used unless specific needs occur; the most important thing to remember concerning this wrapper is: *the tail-optimized function may note return any callable object as its final result*.
 
-The second wrapper is a almost as fast as the previous one; the most important thing to remember concerning this wrapper is: *the tail-optimized function may note return a tuple containing exactly two elements with the first one being a callable object*.
+The second wrapper is a almost as fast as the previous one; it is intended to be used in heavy functional parts of code where functions returning new functions may occur. The most important thing to remember concerning this wrapper is: *the tail-optimized function may note return a tuple containing exactly two elements with the first one being a callable object*.
 
 The third wrapper is more robust but a little slower; the most important thing to know about it is that *intermediate functions may not catch the internal exception used by the wrapper* (catching other exceptions is allowed however).
 
