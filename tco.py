@@ -2,6 +2,8 @@
 Allow to use tail-call optimized functions in Python code (for tail-recursion or continuation-passing style).
 """
 
+__version__ = '1.0.0 alpha'
+
 try:
     apply(len,((),)) # test the version of Python
     # Python 2
@@ -24,14 +26,6 @@ try:
                     f = apply(*f)
                 except TypeError:
                     return f
-    class C():
-        """
-        Main wrapper for tail-call optimized functions.
-        """
-        def __init__(self, func):
-            self.func = func
-        def __call__(self, *k):
-            return _TailCallWrapper(self.func, k)
 except:
     # Python 3
     class _TailCallWrapper():
@@ -57,14 +51,14 @@ except:
                     f = g(*h)
                 except TypeError:
                     return f
-    class C():
-        """
-        Main wrapper for tail-call optimized functions.
-        """
-        def __init__(self, func):
-            self.func = func
-        def __call__(self, *k):
-            return _TailCallWrapper(self.func, k)
+class C():
+    """
+    Main wrapper for tail-call optimized functions.
+    """
+    def __init__(self, func):
+        self.func = func
+    def __call__(self, *k):
+        return _TailCallWrapper(self.func, k)
 
 class _TailCallWrapper1():
     """
