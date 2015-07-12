@@ -1,7 +1,8 @@
 # tco
-Tail Call Optimization for Python
 
-A module for performing tail-call optimization in Python code. Compatible with Python 2 and Python 3.
+## Tail Call Optimization for Python
+
+*A module for performing tail-call optimization in Python code. Compatible with Python 2 and Python 3.*
 
 The module allows a coder to write tail-recursive functions as well as using continuation-passing style in his/her code without having the size of the call stack increasing.
 
