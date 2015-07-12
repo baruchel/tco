@@ -28,11 +28,31 @@ t = time.time(); C(f)(disp)(100000); print("C",time.time()-t)
 t = time.time(); C1(f)(disp)(100000); print("C1",time.time()-t)
 t = time.time(); C2(f)(disp)(100000); print("C2",time.time()-t)
 
-print("Comparison between built-in recursion and tco")
+print("Comparison between loops, built-in recursion and tco")
+def basic(n):
+  while n > 0:
+    n -= 1
+  return 0
+def basic2(n):
+  for _ in range(n): pass
+  return 0
 def recurs(n):
   return recurs(n-1) if n>0 else 0
 f = lambda self: lambda n: f(n-1) if n>0 else 0
-t = time.time(); recurs(500); print("built-in",time.time()-t)
-t = time.time(); C(f)()(500); print("tco C",time.time()-t)
-t = time.time(); C1(f)()(500); print("tco C1",time.time()-t)
+nbr = 750
+t = time.time(); basic(nbr); print("while loop",time.time()-t)
+t = time.time(); basic2(nbr); print("for loop",time.time()-t)
+t = time.time(); recurs(nbr); print("built-in rec.",time.time()-t)
+t = time.time(); C(f)()(nbr); print("tco C",time.time()-t)
+t = time.time(); C1(f)()(nbr); print("tco C1",time.time()-t)
 
+def collatz0(n):
+  c = 0
+  while n != 1:
+    n = n//2 if n%2==0 else 3*n+1
+    c += 1
+  return c
+collatz = lambda f: lambda n, c: f(n//2 if n%2==0 else 3*n+1,c+1) if n != 1 else c
+
+t = time.time(); print(collatz0(9999999)); print("Collatz0",time.time()-t)
+t = time.time(); print(C1(collatz)()(9999999,0)); print("Collatz C1",time.time()-t)
