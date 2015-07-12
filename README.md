@@ -12,9 +12,9 @@ The module contains various different implementations of a trampoline-based wrap
     from tco import C1 as C
     from tco import C2 as C
 
-The first wrapper is a little faster and should be used unless specific needs occur; the most important thing to remember concerning this wrapper is: *the tail-optimized function may note return any callable object as its final result*.
+The first wrapper was initially the fastest one and is a good starting point; it is still the fastest one for Python 3; the most important thing to remember concerning this wrapper is: *the tail-optimized function may note return any callable object as its final result*.
 
-The second wrapper is a almost as fast as the previous one; it is intended to be used in heavy functional parts of code where functions returning new functions may occur. The most important thing to remember concerning this wrapper is: *the tail-optimized function may note return a tuple containing exactly two elements with the first one being a callable object*.
+The second wrapper is now the fastest one for Python 2 and almost as fast as the previous one for Python 3; it is intended to be used in heavy functional parts of code where functions returning new functions may occur. The most important thing to remember concerning this wrapper is: *the tail-optimized function may note return a tuple containing exactly two elements with the first one being a callable object*.
 
 The third wrapper is more robust but a little slower; the most important thing to know about it is that *intermediate functions may not catch the internal exception used by the wrapper* (catching other exceptions is allowed however).
 

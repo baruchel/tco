@@ -46,9 +46,11 @@ try:
               *map( lambda c: lambda *args: (c.func, args), k) )
         def __call__(self, *args):
             f = (self.func, args)
-            while type(f)==tuple and len(f)==2 and callable(f[0]):
+            while True:
+              try:
                 f = apply(*f)
-            return f
+              except:
+                return f
     
     class C1():
         """
