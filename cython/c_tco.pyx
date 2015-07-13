@@ -12,7 +12,7 @@ cdef class _TailCallWrapper:
     This is a private class and should never be accessed directly.
     Functions should be created by using the C() class first.
     """
-    cdef object func
+    cdef public object func
     cdef object trampoline
     def __init__(self,func, k):
         self.func = func(
@@ -54,7 +54,7 @@ cdef class _TailCallWrapper1:
     This is a private class and should never be accessed directly.
     Functions should be created by using the C() class first.
     """
-    cdef object func
+    cdef public object func
     cdef object trampoline
     def __init__(self, func, k):
         self.func = func(
