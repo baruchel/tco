@@ -58,6 +58,19 @@ In the example above (for the factorial function), no explicit continuation is g
 
 Any number of explicit continuations may be used (for instance one for a success case and another one for a failure case).
 
+Here is another example with two consecutive continuations:
+
+    def disp(x):
+      print(x)
+    display = C(lambda self: lambda a: disp(a))()
+    square = C(lambda f, k: lambda x: k(x**2))(display)
+    fac = C(
+             lambda self, k:
+               lambda n, acc:
+                 self(n-1,n*acc) if n>1 else k(acc)
+           )(square)
+    fac(5,1)
+
 ### Using the Cython version
 
-Speed can get improved by using the Cython version. Some binaries are provided in the current Github repository but compiling the module is very easy.
+Speed can get improved by using the Cython version. Some binaries are provided in the current Github repository but compiling the module is very easy (see the instructions in the relevant directory).
