@@ -55,3 +55,9 @@ In the example above (for the factorial function), no explicit continuation is g
                      self(n-1,n*acc) if n>1 else k(acc)
            )(display)
     fac(5,1)
+
+Any number of explicit continuations may be used (for instance one for a success case and another one for a failure case).
+
+### Using the Cython version
+
+Speed can get improved by using the Cython version. Some binaries are provided in the current Github repository but compiling the module is very easy.
