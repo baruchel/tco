@@ -56,6 +56,8 @@ In the example above (for the factorial function), no explicit continuation is g
            )(display)
     fac(5,1)
 
+It should be noticed that the continuation to be passed as an argument should itself embed its own continuations (if any); this is why the `display` function above has the empty parenthesis at the end of the line.
+
 Any number of explicit continuations may be used (for instance one for a success case and another one for a failure case).
 
 Here is another example with two consecutive continuations:
