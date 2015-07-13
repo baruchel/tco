@@ -77,4 +77,4 @@ Here is another example with two consecutive continuations:
 
 Speed can get improved by using the version compiled by Cython. Some binaries are provided in the current Github repository (in which case installing cython isn't required) but installing Cython and compiling the module is very easy (see the instructions in the relevant directory).
 
-In order to try a pre-compiled binary, the library file `c_tco.so` can be put in the same directory than the python code and nothing more is required before importing the module.
+In order to try a pre-compiled binary, the library file `c_tco.so` can be put in the same directory than the python code and nothing more is required before importing the module. Using a dedicated directory on the PYTHONPATH will be more convenient for further use.
