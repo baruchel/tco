@@ -1,4 +1,4 @@
-from tco import C, C1, C2
+from tco import C, C1, C2, C3
 import traceback
 import time
 
@@ -27,6 +27,7 @@ f = lambda self, d: lambda n: self(n-1) if n>0 else d(42)
 t = time.time(); C(f)(disp)(100000); print("C",time.time()-t)
 t = time.time(); C1(f)(disp)(100000); print("C1",time.time()-t)
 t = time.time(); C2(f)(disp)(100000); print("C2",time.time()-t)
+t = time.time(); C3(f)(disp)(100000); print("C3",time.time()-t)
 
 print("Comparison between loops, built-in recursion and tco")
 def basic(n):
@@ -38,13 +39,22 @@ def basic2(n):
   return 0
 def recurs(n):
   return recurs(n-1) if n>0 else 0
-f = lambda self: lambda n: f(n-1) if n>0 else 0
+f = lambda self: lambda n: self(n-1) if n>0 else 0
 nbr = 750
 t = time.time(); basic(nbr); print("while loop",time.time()-t)
 t = time.time(); basic2(nbr); print("for loop",time.time()-t)
 t = time.time(); recurs(nbr); print("built-in rec.",time.time()-t)
 t = time.time(); C(f)()(nbr); print("tco C",time.time()-t)
 t = time.time(); C1(f)()(nbr); print("tco C1",time.time()-t)
+
+print("Benchmark")
+nbr = 100000
+t = time.time(); basic(nbr); print("while loop",time.time()-t)
+t = time.time(); basic2(nbr); print("for loop",time.time()-t)
+t = time.time(); C(f)()(nbr); print("tco C",time.time()-t)
+t = time.time(); C1(f)()(nbr); print("tco C1",time.time()-t)
+t = time.time(); C2(f)()(nbr); print("tco C2",time.time()-t)
+t = time.time(); C3(f)()(nbr); print("tco C3",time.time()-t)
 
 def collatz0(n):
   c = 0

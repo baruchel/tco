@@ -4,7 +4,7 @@
 
 *A module for performing tail-call optimization in Python code. Compatible with Python 2 and Python 3 as well as with both versions of the Pypy interpreter.*
 
-The module allows a coder to write tail-recursive functions as well as using continuation-passing style in his/her code without having the size of the execution stack increasing. Tail-recursive functions using the module will be much faster than functions using the standard Python recursion.
+The module allows a coder to write tail-recursive functions as well as using continuation-passing style in his/her code without having the size of the execution stack increasing.
 
 The module contains various different implementations of a trampoline-based wrapper for tail-call optimized functions. Only one should be imported according to the needs; the following `import` statements will allow to use the very same syntax in the code to be written:
 
