@@ -46,14 +46,15 @@ class C():
     def __call__(self, *k):
         return _TailCallWrapper(self.func, k)
 
-# Same idea as previously but much quicker on Python2 (and slower on Python3)
-class _TailCall3(Exception):
-    def __init__(self):
-        pass
-
 # TODO: see if there is any interest in trying to adapt the following
 #       system (from the 1.0.1 version) to the new way (maybe it could
 #       be a little quicker for Python 2).
+#
+# Same idea as previously but much quicker on Python2 (and slower on Python3)
+# class _TailCall3(Exception):
+#     def __init__(self):
+#         pass
+# 
 # def _tailCallback3(f, e):
 #     def t(*args):
 #         e.func = f.func
