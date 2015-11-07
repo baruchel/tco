@@ -2,18 +2,17 @@
 
 ## Tail Call Optimization for Python
 
-*A module for performing tail-call optimization in Python code. Compatible with Python 2 and Python 3 as well as with both versions of the Pypy interpreter. A fast version to be compiled with Cython is also provided (with some pre-compiled binaries).*
+*A module for performing tail-call optimization in Python code.*
 
 The module allows a coder to write tail-recursive functions as well as using continuation-passing style in his/her code without having the size of the execution stack increasing.
 
+A long explanation of how to use it can be found [here](http://baruchel.github.io/python/2015/11/07/explaining-functional-aspects-in-python/). This is the preferred documentation now.
+
 ### New class provided by the module
 
-The module contains various different implementations of a trampoline-based wrapper for tail-call optimized functions. Only one should be imported according to the needs; the following `import` statements will allow to use the very same syntax in the code to be written:
+The module implements a trampoline-based wrapper for tail-call optimized functions. It should be imported with:
 
     from tco import C
-    from tco import C1 as C
-    from tco import C2 as C
-    from tco import C3 as C
 
 The main difference between all wrappers is speed; the first wrapper should be tried first. The wrappers `C` and `C1` should avoid returning callable objects as their final return value; the wrappers `C2` and `C3` are slower but are compatible with any kind of return value.
 
@@ -72,9 +71,3 @@ Here is another example with two consecutive continuations:
                  self(n-1,n*acc) if n>1 else k(acc)
            )(square)
     fac(5,1)
-
-### Using the Cython version
-
-Speed can get improved by using the version compiled by Cython. Some binaries are provided in the current Github repository (in which case installing cython isn't required) but installing Cython and compiling the module is very easy (see the instructions in the relevant directory).
-
-In order to try a pre-compiled binary, the library file `c_tco.so` can be put in the same directory than the python code and nothing more is required before importing the module. Using a dedicated directory on the PYTHONPATH will be more convenient for further use.
