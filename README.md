@@ -8,6 +8,16 @@ The module allows a coder to write tail-recursive functions as well as using con
 
 A long explanation of how to use it can be found [here](http://baruchel.github.io/python/2015/11/07/explaining-functional-aspects-in-python/). This is the preferred documentation now.
 
+### Installation
+
+Just type:
+
+    pip install tco
+
+or (for a system-wide installation):
+
+    sudo pip install tco
+
 ### New class provided by the module
 
 The module implements a trampoline-based wrapper for tail-call optimized functions. It should be imported with:
