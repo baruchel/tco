@@ -1,6 +1,6 @@
 # tco
 
-## Tail Call Optimization for Python (version 1.2)
+## Tail Call Optimization for Python (version 1.2.1)
 
 *A module for performing tail-call optimization in Python code.*
 
