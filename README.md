@@ -6,7 +6,7 @@
 
 The module allows a coder to write tail-recursive functions as well as using continuation-passing style in his/her code without having the size of the execution stack increasing.
 
-The module internally uses standard and pythonic features (mostly lambda calculus and exceptions) and doesn't attempt to "inspect" the stack or the functions for modifying them. For this reason, it should integrate smoothly with any version of Python.
+The module internally uses standard and pythonic features (mostly lambda calculus and exceptions) and doesn't attempt to "inspect" the stack or the functions for modifying them. For this reason, it should integrate smoothly with any version of Python. Furthermore, nested systems of continuations are correctly handled.
 
 ### Installation
 
