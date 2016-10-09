@@ -3,7 +3,7 @@ Allow to use tail-call optimized functions in Python code (for
 tail-recursion or continuation-passing style).
 """
 
-__version__ = '1.1'
+__version__ = '1.2'
 
 class _TailCall(Exception):
     def __init__(self, f, args, uid):
@@ -46,48 +46,34 @@ class C():
     def __call__(self, *k):
         return _TailCallWrapper(self.func, k)
 
-# TODO: see if there is any interest in trying to adapt the following
-#       system (from the 1.0.1 version) to the new way (maybe it could
-#       be a little quicker for Python 2).
-#
-# Same idea as previously but much quicker on Python2 (and slower on Python3)
-# class _TailCall3(Exception):
-#     def __init__(self):
-#         pass
-# 
-# def _tailCallback3(f, e):
-#     def t(*args):
-#         e.func = f.func
-#         e.args = args
-#         raise e
-#     return t
-# 
-# class _TailCallWrapper3():
-#     """
-#     Wrapper for tail-called optimized functions embedding their continuations.
-#     Such functions are ready to be evaluated with their arguments.
-# 
-#     This is a private class and should never be accessed directly.
-#     Functions should be created by using the C() class first.
-#     """
-#     def __init__(self, func, k):
-#         e = _TailCall3()
-#         self.func = func( _tailCallback3(self, e),
-#                           *map( lambda c: _tailCallback3(c, e), k) )
-#     def __call__(self, *args):
-#         f = self.func
-#         while True:
-#             try:
-#                 return f(*args)
-#             except _TailCall3 as e:
-#                 f = e.func
-#                 args = e.args
-#         
-# class C3():
-#     """
-#     Main wrapper for tail-call optimized functions.
-#     """
-#     def __init__(self, func):
-#         self.func = func
-#     def __call__(self, *k):
-#         return _TailCallWrapper3(self.func, k)
+def with_continuations(**c):
+    """
+    A decorator for defining tail-call optimized functions.
+
+    Example
+    -------
+
+        @with_continuations()
+        def factorial(n, k, self=None):
+            return self(n-1, k*n) if n > 1 else k
+        
+        @with_continuations()
+        def identity(x, self=None):
+            return x
+        
+        @with_continuations(out=identity)
+        def factorial2(n, k, self=None, out=None):
+            return self(n-1, k*n) if n > 1 else out(k)
+
+        print(factorial(7,1))
+        print(factorial2(7,1))
+
+    """
+    if len(c): keys, k = zip(*c.items())
+    else: keys, k = tuple([]), tuple([])
+    def d(f):
+        return C(
+            lambda kself, *conts:
+                lambda *args:
+                    f(*args, self=kself, **dict(zip(keys, conts)))) (*k)
+    return d

@@ -1,12 +1,10 @@
 # tco
 
-## Tail Call Optimization for Python
+## Tail Call Optimization for Python (version 1.2)
 
 *A module for performing tail-call optimization in Python code.*
 
 The module allows a coder to write tail-recursive functions as well as using continuation-passing style in his/her code without having the size of the execution stack increasing.
-
-A long explanation of how to use it can be found [here](http://baruchel.github.io/python/2015/11/07/explaining-functional-aspects-in-python/). This is the preferred documentation now.
 
 ### Installation
 
@@ -18,15 +16,73 @@ or (for a system-wide installation):
 
     sudo pip install tco
 
-### New class provided by the module
+Since the module is rather small, the single file `__init__.py` can also be quickly renamed as `tco.py` and directly put in the directory of a given project for _ad hoc_ purposes.
+
+### Low-level class and high-level decorator
+
+The whole module relies on a new low-level class called `C`. Since embedding new functions in this wrapper may seem difficult to some users, a decorator has been added in the module since its version 1.2 in order to provide a convenient style of programming.
+
+Both can be imported with:
+
+    from tco import *
+
+### Using the @with_continuations decorator
+
+The module provides a decorator `@with_continuations` taking arguments for defining new tail-optimized functions. Below is an example for the _factorial_ function:
+
+    @with_continuations()
+    def factorial(n, k, self=None):
+        return self(n-1, k*n) if n > 1 else k
+
+The new `factorial` function can be used with something like `factorial(10,1)` for computing _factorial(10)_. Here the decorator has no argument because no external continuation is used; the tail-recursive call is implicit and always provided. The `self` keyword is mandatory for all decorated functions; it can be used in the body of the function for a tail-recursive call.
+
+Other continuations can also be used:
+
+    @with_continuations()
+    def identity(x, self=None):
+        return x
+    
+    @with_continuations(out=identity)
+    def factorial2(n, k, self=None, out=None):
+        return self(n-1, k*n) if n > 1 else out(k)
+
+The `factorial2` function escapes form the recursive process (which however is no longer a stack) by using a continuation (in the example above, the continuation does nothing special).
+
+More interesting continuations for success or failure cases can be defined by the user for escaping from the most inner call of a tail-recursive process.
+
+The default value of all continuations (including the `self` one) may be any value of any kind, since it is not used (the decorator wraps the function and ensures it will be called with relevant internal values). Several style guidelines can be given:
+
+  * using `None` as a default value for all continuations;
+  * using `C` as a default value for all continuations in order to let a reader remember this keyword arguments are continuations;
+  * using `None` or `C` for the `self` keyword argument and copying the name of the corresponding continuation for all other arguments.
+
+Here are some examples for the previous style guidelines:
+
+    @with_continuations(k1=success_func, k2=failure_func)
+    def myfunc(a, b, c, self=None, k1=None, k2=None):
+        pass
+
+    @with_continuations(k1=success_func, k2=failure_func)
+    def myfunc(a, b, c, self=C, k1=C, k2=C):
+        pass
+
+    @with_continuations(k1=success_func, k2=failure_func)
+    def myfunc(a, b, c, self=None, k1=success_func, k2=failure_func):
+        pass
+
+    @with_continuations(k1=success_func, k2=failure_func)
+    def myfunc(a, b, c, self=C, k1=success_func, k2=failure_func):
+        pass
+
+### Low-level class provided by the module
+
+A long explanation of how to use the low-level class was written on a blog in 2015; it can be found [here](http://baruchel.github.io/python/2015/11/07/explaining-functional-aspects-in-python/). Old explanation for this class is below.
 
 The module implements a trampoline-based wrapper for tail-call optimized functions. It should be imported with:
 
     from tco import C
 
-The main difference between all wrappers is speed; the first wrapper should be tried first. The wrappers `C` and `C1` should avoid returning callable objects as their final return value; the wrappers `C2` and `C3` are slower but are compatible with any kind of return value.
-
-The syntax for using all wrappers is:
+The syntax for using the wrapper is:
 
     f = C(
            lambda self, k1, k2, k3, ...:

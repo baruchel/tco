@@ -7,6 +7,6 @@ setup(
         license='MIT',
         author='Thomas Baruchel',
         author_email = 'baruchel@gmx.com',
-        version='1.1.1',
+        version='1.2',
         url='https://github.com/baruchel/tco'
 )
