@@ -8,6 +8,8 @@ The module allows a coder to write tail-recursive functions as well as using con
 
 The module internally uses standard and pythonic features (mostly lambda calculus and exceptions) and doesn't attempt to "inspect" the stack or the functions for modifying them. For this reason, it should integrate smoothly with any version of Python. Furthermore, nested systems of continuations are correctly handled.
 
+I wrote a similar module handling called [continuation](https://github.com/baruchel/continuation).
+
 ### Installation
 
 Just type:
@@ -139,3 +141,16 @@ Here is another example with two consecutive continuations:
                  self(n-1,n*acc) if n>1 else k(acc)
            )(square)
     fac(5,1)
+
+### Dynamically creating new continuations
+
+In version 1.2.1 was introduced an attribute allowing to get the original function passed as a continuation in order to dynamically build a new continuation with the very same function. In the example below, this attribute appears as `k.C`:
+
+    from tco import C
+    
+    identity = C(lambda self: lambda x: x)()
+    test = lambda self, k: lambda x: C(test2)(k.C)(x)
+    test2 = lambda self, k: lambda x: k(x+1)
+    
+    print( C(test)(identity)(5) )
+    
